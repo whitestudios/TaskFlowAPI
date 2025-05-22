@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/whitestudios/TaskFlowAPI/handlers/tasks"
 	"github.com/whitestudios/TaskFlowAPI/handlers/user"
 )
 
@@ -11,7 +12,7 @@ func initializeRoutes(router *gin.Engine) {
 	BasePath := "/api"
 
 	user.Init()
-
+	tasks.Init()
 	api := router.Group(BasePath)
 	{
 		api.GET("/test", func(c *gin.Context) {
@@ -35,25 +36,17 @@ func initializeRoutes(router *gin.Engine) {
 	// Create task's routes
 	task := api.Group("/task")
 	{
-		task.GET("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{"msg": "Task Info"})
-		})
+		task.GET("", tasks.ShowTaskHandler)
 
-		task.POST("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{"msg": "Task Created"})
-		})
+		task.POST("", tasks.CreateTasksHandler)
 
-		task.PUT("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{"msg": "Task Updated"})
-		})
+		task.PUT("", tasks.UpdateTaskHandler)
 
-		task.DELETE("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{"msg": "Task Deleted"})
-		})
+		task.PATCH("/:id/status", tasks.StatusTaskHandler)
 
-		task.GET("/all", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{"msg": "Tasks"})
-		})
+		task.DELETE("", tasks.DeleteTaskHandler)
+
+		task.GET("/all", tasks.ListTaskHandler)
 	}
 
 }
