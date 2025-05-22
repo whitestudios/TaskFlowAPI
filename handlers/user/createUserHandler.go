@@ -40,7 +40,7 @@ func CreateUserHandler(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "User created successfully",
-		"id":      new_user,
+		"user":    new_user,
 	})
 
 }

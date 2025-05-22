@@ -21,7 +21,7 @@ func ShowUserHandler(c *gin.Context) {
 	user := models.User{}
 
 	if err := db.First(&user, id).Error; err != nil {
-		logger.Errf("Error searching user id in ShowUserHandler: ", err)
+		logger.Errf("Error searching user id in ShowUserHandler: %v", err)
 		c.JSON(http.StatusFound, gin.H{"error": fmt.Sprintf("user with id %v not found", id)})
 		return
 	}
